@@ -9,8 +9,10 @@ class AddressUseCase:
     def find_address_by_zipcode(self, zipcode) -> AddressZipCodeSchema | StatusResponseSchema:
         try:
             response = requests.get(f'https://viacep.com.br/ws/{zipcode}/json/')
-            if response.status_code != 200:
-                return StatusResponseSchema(code=response.status_code, message="Erro na busca do cep")
+            if response.status_code == 400:
+                return StatusResponseSchema(code=response.status_code, message="Cep enviado no formato inválido.")
+            elif response.status_code != 200:
+                return StatusResponseSchema(code=response.status_code, message="A consulta dos correios retornou um erro não especificado.")
 
             address_data = response.json()
 
