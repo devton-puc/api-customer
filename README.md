@@ -2,11 +2,27 @@
 
 Projeto MVP para disciplina **Desenvolvimento Full Stack Básico** 
 
-O objetivo aqui é criar uma api de crud de clientes.
+Este projeto é uma aplicação back-end desenvolvida com Python Utilizando Flask. O objetivo é criar um serviço para interagir com front-end permitindo adicionar, editar, excluir e visualizar informações dos clientes.
 
----
+
+## Funcionalidades
+
+- **Cadastro de Clientes**: Permite adicionar novos clientes com informações como nome, email, telefone, idade e endereço.
+- **Alteração de Clientes**: Permite alterar as informações dos clientes existentes.
+- **Busca de Clientes**: Permite buscar as informações dos clientes existentes para edição.
+- **Exclusão de Clientes**: Permite excluir clientes do banco de dados.
+- **Visualização de Clientes**: Lista todos os clientes cadastrados com opções para editar e excluir.
+- **Busca de Cep: Permite Consultar os dados de endereço, informando o CEP.
+
+## Tecnologias Utilizadas
+
+- **Python**: Linguagem de programação principal utilizada no projeto.
+- **Flask**: Framework para desenvolvimento da API.
+- **SQLite**: Banco de dados utilizado para armazenar os dados dos clientes e endereços.
+- **Pydantic**: Biblioteca para validação de dados e definição de esquemas.
+- **flask-openapi3**: Biblioteca para documentação da API.
+
 ## Como executar 
-
 
 Será necessário ter todas as libs python listadas no `requirements.txt` instaladas.
 Após clonar o repositório, é necessário ir ao diretório raiz, pelo terminal, para poder executar os comandos descritos abaixo.
@@ -45,6 +61,15 @@ automaticamente após uma mudança no código fonte.
 ```
 (env)$ flask run --host 0.0.0.0 --port 5000 --reload
 ```
+
+## Documentação OpenAPI
+
+A documentação OpenAPI da API está disponível em:
+
+- **URL**: `[http://localhost:5000/openapi/swagger](http://localhost:5000/openapi/swagger)`
+
+
+## POSTMAN
 
 Para executar, importe as collections do postman 
 
