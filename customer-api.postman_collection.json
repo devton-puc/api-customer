@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Mariana Doe\",\r\n  \"email\": \"mariana.doe@example.com\",\r\n  \"phone\": \"2198776655\",\r\n  \"age\": 25\r\n}",
+					"raw": "{\r\n  \"name\": \"Maria Dark\",\r\n  \"age\": 22,\r\n  \"email\": \"maria.dark@email.com\",\r\n  \"phone\": \"2133448866\",\r\n  \"address\": {\r\n        \"zipcode\": \"12345\",\r\n        \"address\": \"123 Main St\",\r\n        \"neighborhood\": \"Central\",\r\n        \"city\": \"Springfield\",\r\n        \"state\": \"IL\",\r\n        \"number\": \"10\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,7 +48,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"page\": 1,\r\n    \"per_page\": 5,\r\n    \"name\": \"Ma\"\r\n}",
+					"raw": "{\r\n    \"page\": 1,\r\n    \"per_page\": 5,\r\n    \"name\": \"\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,7 +83,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"John S. Smith\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"age\": 44\r\n}",
+					"raw": "{\r\n    \"address\": {\r\n        \"address\": \"123 Main St\",\r\n        \"city\": \"California\",\r\n        \"neighborhood\": \"Central\",\r\n        \"number\": \"10\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": \"12345\"\r\n    },\r\n    \"age\": 22,\r\n    \"email\": \"maria.dork@email.com\",\r\n    \"name\": \"Maria Dork\",\r\n    \"phone\": \"2133448866\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,7 +91,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/customer/1",
+					"raw": "http://localhost:5000/customer/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -99,7 +99,7 @@
 					"port": "5000",
 					"path": [
 						"customer",
-						"1"
+						"3"
 					]
 				},
 				"description": "Generated from cURL: curl -X PUT http://localhost:5000/customers/1 \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n  \"name\": \"John Smith\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"age\": 31\r\n}'\r\n"
@@ -133,7 +133,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/customer/1",
+					"raw": "http://localhost:5000/customer/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -141,10 +141,59 @@
 					"port": "5000",
 					"path": [
 						"customer",
-						"1"
+						"3"
 					]
 				},
 				"description": "Generated from cURL: curl -X DELETE http://localhost:5000/customers/1\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/customer/zipcode/:zipcode",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/customer/zipcode/23025290",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"customer",
+						"zipcode",
+						"23025290"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:5000/api/customer/zipcode/<zipcode>\" \\\r\n-H \"Content-Type: application/json\"\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/ws/:CEP/json",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/customer/zipcode/{zipcode}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"customer",
+						"zipcode",
+						"{zipcode}"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:5000/customer/zipcode/{zipcode}\"\r\n"
 			},
 			"response": []
 		}
