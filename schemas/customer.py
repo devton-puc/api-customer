@@ -2,6 +2,8 @@ from typing import List
 
 from pydantic import BaseModel, EmailStr, ConfigDict
 
+from schemas.address import AddressSchema
+
 
 # Schema para criação/atualizacao de um novo cliente
 class CustomerSaveSchema(BaseModel):
@@ -9,6 +11,7 @@ class CustomerSaveSchema(BaseModel):
     email: EmailStr
     phone: str
     age: int
+    address: AddressSchema
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -20,6 +23,7 @@ class CustomerViewSchema(BaseModel):
     email: EmailStr
     phone: str
     age: int
+    address: AddressSchema
 
     model_config = ConfigDict(from_attributes=True)
 

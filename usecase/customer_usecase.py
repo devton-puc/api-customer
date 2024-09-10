@@ -1,9 +1,11 @@
 from sqlalchemy.exc import IntegrityError
 from model import SessionLocal
+from model.address import Address
 from model.customer import Customer
 from schemas.customer import CustomerSaveSchema, ListCustomerViewSchema, CustomerViewSchema
 from schemas.filter import CustomerFilterSchema
 from schemas.status import StatusResponseSchema
+from schemas.address import AddressSchema
 
 
 class CustomerUseCase:
@@ -20,8 +22,6 @@ class CustomerUseCase:
 
         except Exception as error:
             return StatusResponseSchema(code=500, message="Erro ao obter o cliente", details=f"{error}")
-        finally:
-            session.close(self)
 
     def delete_customer(self, id: int) -> StatusResponseSchema:
         try:
@@ -56,6 +56,14 @@ class CustomerUseCase:
             if customer_data.age:
                 customer.age = customer_data.age
 
+            if customer_data.address:
+                customer.address.zipcode = customer_data.address.zipcode
+                customer.address.address = customer_data.address.address
+                customer.address.neighborhood = customer_data.address.neighborhood
+                customer.address.city = customer_data.address.city
+                customer.address.state = customer_data.address.state
+                customer.address.number = customer_data.address.number
+
             session.commit()
             return StatusResponseSchema(code=200, message="Cliente alterado com sucesso.")
 
@@ -70,15 +78,29 @@ class CustomerUseCase:
 
         try:
             session = SessionLocal()
+
             new_customer = Customer(
                 name=customer_data.name,
                 email=customer_data.email,
                 phone=customer_data.phone,
                 age=customer_data.age
             )
+
+            if customer_data.address:
+                new_customer.address=Address(
+                    zipcode=customer_data.address.zipcode,
+                    address=customer_data.address.address,
+                    neighborhood=customer_data.address.neighborhood,
+                    city=customer_data.address.city,
+                    state=customer_data.address.state,
+                    number=customer_data.address.number
+                )
+
+
             session.add(new_customer)
             session.commit()
-            return StatusResponseSchema(code=200, message="Cliente criado com sucesso.")
+
+            return StatusResponseSchema(code=201, message="Cliente criado com sucesso.")
 
         except IntegrityError as error:
             return StatusResponseSchema(code=500, message="Erro ao Criar o cliente",
