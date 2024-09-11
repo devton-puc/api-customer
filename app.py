@@ -1,4 +1,4 @@
-from flask_openapi3 import OpenAPI, Info
+from flask_openapi3 import OpenAPI, Info, APIBlueprint
 from flask_cors import CORS
 
 from model import init_db
