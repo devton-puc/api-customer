@@ -53,6 +53,8 @@ class CustomerUseCase:
                 customer.email = customer_data.email
             if customer_data.phone:
                 customer.phone = customer_data.phone
+            if customer_data.gender:
+                customer.gender = customer_data.gender
             if customer_data.age:
                 customer.age = customer_data.age
 
@@ -83,6 +85,7 @@ class CustomerUseCase:
                 name=customer_data.name,
                 email=customer_data.email,
                 phone=customer_data.phone,
+                gender=customer_data.gender,
                 age=customer_data.age
             )
 

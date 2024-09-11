@@ -10,6 +10,7 @@ class CustomerSaveSchema(BaseModel):
     name: str
     email: EmailStr
     phone: str
+    gender: str
     age: int
     address: AddressSchema
 
@@ -22,6 +23,7 @@ class CustomerViewSchema(BaseModel):
     name: str
     email: EmailStr
     phone: str
+    gender: str
     age: int
     address: AddressSchema
 
