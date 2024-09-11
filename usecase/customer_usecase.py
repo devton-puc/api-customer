@@ -10,33 +10,63 @@ from schemas.address import AddressSchema
 
 class CustomerUseCase:
 
-    def get_customer(self, id: int) -> CustomerViewSchema | StatusResponseSchema:
-
+    def list_customers(self, filter_customer: CustomerFilterSchema) -> ListCustomerViewSchema | StatusResponseSchema:
         try:
-
             session = SessionLocal()
-            customer = session.query(Customer).get(id)
-            if not customer:
-                return StatusResponseSchema(code=404, message="Cliente não encontrado.")
-            return CustomerViewSchema(**customer.to_dict())
+            query = session.query(Customer)
+
+            if filter_customer.name:
+                query = query.filter(Customer.name.like(f'%{filter_customer.name}%'))
+
+            total = query.count()
+            customers = query.offset((filter_customer.page - 1) * filter_customer.per_page).limit(
+                filter_customer.per_page).all()
+
+            if not customers:
+                return StatusResponseSchema(code=204, message="Cliente não encontrado.")
+
+            return ListCustomerViewSchema(total=total, page=filter_customer.page, per_page=filter_customer.per_page,
+                                          customers=[customer.to_dict() for customer in customers])
 
         except Exception as error:
-            return StatusResponseSchema(code=500, message="Erro ao obter o cliente", details=f"{error}")
+            return StatusResponseSchema(code=500, message="Erro ao listar os clientes", details=f"{error}")
 
-    def delete_customer(self, id: int) -> StatusResponseSchema:
+
+    def create_customer(self, customer_data: CustomerSaveSchema) -> StatusResponseSchema:
+
         try:
-
             session = SessionLocal()
-            customer = session.query(Customer).get(id)
-            if not customer:
-                return StatusResponseSchema(code=404, message="Cliente não encontrado.")
 
-            session.delete(customer)
+            new_customer = Customer(
+                name=customer_data.name,
+                email=customer_data.email,
+                phone=customer_data.phone,
+                gender=customer_data.gender,
+                age=customer_data.age
+            )
+
+            if customer_data.address:
+                new_customer.address=Address(
+                    zipcode=customer_data.address.zipcode,
+                    address=customer_data.address.address,
+                    neighborhood=customer_data.address.neighborhood,
+                    city=customer_data.address.city,
+                    state=customer_data.address.state,
+                    number=customer_data.address.number
+                )
+
+
+            session.add(new_customer)
             session.commit()
-            return StatusResponseSchema(code=200, message="Cliente excluído com sucesso.")
+
+            return StatusResponseSchema(code=201, message="Cliente criado com sucesso.")
+
+        except IntegrityError as error:
+            return StatusResponseSchema(code=500, message="Erro ao Criar o cliente",
+                                        details="Dados informados já existem")
 
         except Exception as error:
-            return StatusResponseSchema(code=500, message="Erro ao excluir o cliente", details=f"{error}")
+            return StatusResponseSchema(code=500, message="Erro ao Criar o cliente", details=f"{error}")
 
     def update_customer(self, id: int, customer_data: CustomerSaveSchema) -> StatusResponseSchema:
 
@@ -76,59 +106,32 @@ class CustomerUseCase:
         except Exception as error:
             return StatusResponseSchema(code=500, message="Erro ao Alterar o cliente", details=f"{error}")
 
-    def create_customer(self, customer_data: CustomerSaveSchema) -> StatusResponseSchema:
-
+    def delete_customer(self, id: int) -> StatusResponseSchema:
         try:
+
             session = SessionLocal()
+            customer = session.query(Customer).get(id)
+            if not customer:
+                return StatusResponseSchema(code=404, message="Cliente não encontrado.")
 
-            new_customer = Customer(
-                name=customer_data.name,
-                email=customer_data.email,
-                phone=customer_data.phone,
-                gender=customer_data.gender,
-                age=customer_data.age
-            )
-
-            if customer_data.address:
-                new_customer.address=Address(
-                    zipcode=customer_data.address.zipcode,
-                    address=customer_data.address.address,
-                    neighborhood=customer_data.address.neighborhood,
-                    city=customer_data.address.city,
-                    state=customer_data.address.state,
-                    number=customer_data.address.number
-                )
-
-
-            session.add(new_customer)
+            session.delete(customer)
             session.commit()
-
-            return StatusResponseSchema(code=201, message="Cliente criado com sucesso.")
-
-        except IntegrityError as error:
-            return StatusResponseSchema(code=500, message="Erro ao Criar o cliente",
-                                        details="Dados informados já existem")
+            return StatusResponseSchema(code=200, message="Cliente excluído com sucesso.")
 
         except Exception as error:
-            return StatusResponseSchema(code=500, message="Erro ao Criar o cliente", details=f"{error}")
+            return StatusResponseSchema(code=500, message="Erro ao excluir o cliente", details=f"{error}")
 
-    def list_customers(self, filter_customer: CustomerFilterSchema) -> ListCustomerViewSchema | StatusResponseSchema:
+    def get_customer(self, id: int) -> CustomerViewSchema | StatusResponseSchema:
+
         try:
+
             session = SessionLocal()
-            query = session.query(Customer)
-
-            if filter_customer.name:
-                query = query.filter(Customer.name.like(f'%{filter_customer.name}%'))
-
-            total = query.count()
-            customers = query.offset((filter_customer.page - 1) * filter_customer.per_page).limit(
-                filter_customer.per_page).all()
-
-            if not customers:
-                return StatusResponseSchema(code=204, message="Cliente não encontrado.")
-
-            return ListCustomerViewSchema(total=total, page=filter_customer.page, per_page=filter_customer.per_page,
-                                          customers=[customer.to_dict() for customer in customers])
+            customer = session.query(Customer).get(id)
+            if not customer:
+                return StatusResponseSchema(code=404, message="Cliente não encontrado.")
+            return CustomerViewSchema(**customer.to_dict())
 
         except Exception as error:
-            return StatusResponseSchema(code=500, message="Erro ao listar os clientes", details=f"{error}")
+            return StatusResponseSchema(code=500, message="Erro ao obter o cliente", details=f"{error}")
+
+
