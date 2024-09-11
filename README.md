@@ -76,3 +76,6 @@ Para executar, importe as collections do postman
 ```
 customer-api.postman_collection.json
 ```
+
+## Autor
+Clayton Morais de Oliveira
