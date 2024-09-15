@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 # Configuração do banco SQLite
 DATABASE_URL = "sqlite:///customer_crud.db"
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL,pool_size=20, max_overflow=40)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

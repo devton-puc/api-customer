@@ -100,8 +100,8 @@ class CustomerUseCase:
             return StatusResponseSchema(code=200, message="Cliente alterado com sucesso.")
 
         except IntegrityError as error:
-            return StatusResponseSchema(code=500, message="Erro ao Alterar o cliente",
-                                        details="Os dados informados já existem")
+            return StatusResponseSchema(code=500, message="Os dados informados já existem",
+                                        details="")
 
         except Exception as error:
             return StatusResponseSchema(code=500, message="Erro ao Alterar o cliente", details=f"{error}")
