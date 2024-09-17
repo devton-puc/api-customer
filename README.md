@@ -24,8 +24,8 @@ Este projeto é uma aplicação back-end desenvolvida com Python Utilizando Flas
 
 ## Como executar 
 
-Será necessário ter o python instalado. A versão indicada é a 3.12.6 e a do pip é a 24.2
-Após clonar o repositório, é necessário ir ao diretório raiz, pelo terminal, para poder executar os comandos descritos abaixo.
+Será necessário ter o python instalado. A versão indicada é a 3.12.6 e a do pip é a 24.2. 
+Após clonar o repositório, é necessário ir ao diretório raiz do projeto, pelo terminal, para poder executar os comandos descritos abaixo.
 
 > É fortemente indicado o uso de ambientes virtuais do tipo [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html).
 
