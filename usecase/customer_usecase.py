@@ -126,7 +126,7 @@ class CustomerUseCase:
         try:
 
             session = SessionLocal()
-            customer = session.query(Customer).get(id)
+            customer = session.get(Customer, id)
             if not customer:
                 return StatusResponseSchema(code=404, message="Cliente não encontrado.")
             return CustomerViewSchema(**customer.to_dict())
